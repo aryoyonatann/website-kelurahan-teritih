@@ -27,23 +27,6 @@
 .nav-links a:hover  { background: #f1f5f9; color: #1c64f2; }
 .nav-links a.active { color: #1c64f2; font-weight: 700; border-bottom: 2px solid #1c64f2; border-radius: 0; }
 
-.nav-cta { display: flex; align-items: center; gap: 8px; }
-.btn-admin {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
-    border: 1.5px solid #e2e8f0; background: white; color: #0d1b3e;
-    text-decoration: none; transition: all .18s;
-}
-.btn-admin:hover { border-color: #1c64f2; color: #1c64f2; }
-.btn-masyarakat {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
-    background: #1c64f2; color: white; border: none;
-    text-decoration: none; transition: background .18s;
-}
-.btn-masyarakat:hover { background: #1a56db; color: white; }
-
-/* User Chip */
 .user-chip {
     display: flex; align-items: center; gap: 10px;
     padding: 5px 12px 5px 5px;
@@ -86,6 +69,13 @@
 }
 </style>
 
+@php
+    $user     = Auth::user();
+    $fullName = $user->nama ?? $user->name ?? 'User';
+    $parts    = explode(' ', $fullName);
+    $initials = strtoupper(substr($parts[0], 0, 1)) . strtoupper(substr($parts[1] ?? '', 0, 1));
+@endphp
+
 <nav class="main-nav">
     <a href="{{ route('home') }}" class="nav-brand">
         <div class="nav-brand-icon"><i class="bi bi-bank2"></i></div>
@@ -103,59 +93,44 @@
         <li><a href="{{ route('kontak') }}"    class="{{ request()->routeIs('kontak') ? 'active' : '' }}">Kontak</a></li>
     </ul>
 
-    @auth
-        @php
-            $user     = Auth::user();
-            $fullName = $user->nama ?? $user->name ?? 'User';
-            $parts    = explode(' ', $fullName);
-            $initials = strtoupper(substr($parts[0], 0, 1)) . strtoupper(substr($parts[1] ?? '', 0, 1));
-        @endphp
-        <div class="user-chip" id="userChipNav">
-            <div class="user-avatar">
-                @if($user->foto ?? null)
-                    <img src="{{ asset('storage/' . $user->foto) }}" alt="{{ $fullName }}">
-                @else
-                    {{ $initials }}
-                @endif
-            </div>
-            <div class="user-info">
-                <div class="user-name">{{ $fullName }}</div>
-                <div class="user-role">Masyarakat</div>
-            </div>
-            <i class="bi bi-chevron-down ms-1" style="font-size:11px;color:#64748b"></i>
-
-            <div class="user-dropdown">
-                {{-- Tidak ada lagi link Dashboard --}}
-                <a href="{{ route('profile.edit') }}" class="dd-item">
-                    <i class="bi bi-person-circle"></i> Profil Saya
-                </a>
-                <a href="{{ route('user.permohonan.index') }}" class="dd-item">
-                    <i class="bi bi-file-earmark-text"></i> Permohonan Saya
-                </a>
-                <div class="dd-divider"></div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dd-item danger">
-                        <i class="bi bi-box-arrow-right"></i> Keluar
-                    </button>
-                </form>
-            </div>
+    <div class="user-chip" id="userChipNav">
+        <div class="user-avatar">
+            @if($user->foto ?? null)
+                <img src="{{ asset('storage/' . $user->foto) }}" alt="{{ $fullName }}">
+            @else
+                {{ $initials }}
+            @endif
         </div>
+        <div class="user-info">
+            <div class="user-name">{{ $fullName }}</div>
+            <div class="user-role">Masyarakat</div>
+        </div>
+        <i class="bi bi-chevron-down ms-1" style="font-size:11px;color:#64748b"></i>
 
-        <script>
-        (function() {
-            const chip = document.getElementById('userChipNav');
-            if (!chip) return;
-            chip.addEventListener('click', function(e) { e.stopPropagation(); this.classList.toggle('open'); });
-            document.addEventListener('click', function() { chip.classList.remove('open'); });
-        })();
-        </script>
-    @else
-        <div class="nav-cta">
-            <a href="{{ route('admin.login') }}" class="btn-admin">Login Admin</a>
-            <a href="{{ route('login') }}" class="btn-masyarakat">
-                <i class="bi bi-box-arrow-in-right"></i> Login Masyarakat
+        <div class="user-dropdown">
+            {{-- Tidak ada lagi link Dashboard --}}
+            <a href="{{ route('profile.edit') }}" class="dd-item">
+                <i class="bi bi-person-circle"></i> Profil Saya
             </a>
+            <a href="{{ route('user.permohonan.index') }}" class="dd-item">
+                <i class="bi bi-file-earmark-text"></i> Permohonan Saya
+            </a>
+            <div class="dd-divider"></div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="dd-item danger">
+                    <i class="bi bi-box-arrow-right"></i> Keluar
+                </button>
+            </form>
         </div>
-    @endauth
+    </div>
 </nav>
+
+<script>
+(function() {
+    const chip = document.getElementById('userChipNav');
+    if (!chip) return;
+    chip.addEventListener('click', function(e) { e.stopPropagation(); this.classList.toggle('open'); });
+    document.addEventListener('click', function() { chip.classList.remove('open'); });
+})();
+</script>

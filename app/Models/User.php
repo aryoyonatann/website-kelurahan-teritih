@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-   protected $table = 'users';
+    // ── Primary key sesuai database ─────────────────────────────────
     protected $primaryKey = 'id_user';
 
+    // ── Nama tabel (opsional, tapi eksplisit lebih aman) ────────────
+    protected $table = 'users';
+
+    // ── Kolom yang boleh diisi massal ───────────────────────────────
+    // Disesuaikan PERSIS dengan kolom yang ada di tabel users
     protected $fillable = [
         'nama',
         'nik',
@@ -25,19 +28,26 @@ class User extends Authenticatable
         'tanggal_lahir',
         'username',
         'password',
+        // Kolom baru (setelah migration)
+        'rt',
+        'rw',
+        'kelurahan',
+        'kecamatan',
+        'foto',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // ── Kolom yang disembunyikan ────────────────────────────────────
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
-     public function permohonan()
+    // ── Cast ────────────────────────────────────────────────────────
+    protected function casts(): array
     {
-        return $this->hasMany(PermohonanSurat::class, 'id_user', 'id_user');
+        return [
+            'tanggal_lahir' => 'date',
+            'password'      => 'hashed',
+        ];
     }
 }

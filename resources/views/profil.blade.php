@@ -334,11 +334,11 @@
                     </div>
                     <div class="ds-row">
                         <span class="ds-label">Luas Wilayah</span>
-                        <span class="ds-value">3.554 km²</span>
+                        <span class="ds-value">2.54 km²</span>
                     </div>
                     <div class="ds-row">
                         <span class="ds-label">Jumlah Penduduk</span>
-                        <span class="ds-value">10.518 Jiwa</span>
+                        <span class="ds-value">4,520 Jiwa</span>
                     </div>
                     <div class="ds-row">
                         <span class="ds-label">Kecamatan</span>
@@ -355,7 +355,11 @@
             <div class="layanan-card">
                 <div class="layanan-card-title">Layanan Digital</div>
                 <div class="layanan-card-desc">Akses layanan kelurahan kapan saja dan di mana saja.</div>
-                <a href="{{ route('user.dashboard') }}" class="btn-layanan">Buka Dashboard</a>
+                @auth
+                    <a href="{{ route('user.permohonan.create') }}" class="btn-layanan">Ajukan Surat Sekarang</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn-layanan">Login untuk Mengajukan</a>
+                @endauth
             </div>
 
         </div>

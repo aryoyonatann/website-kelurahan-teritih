@@ -10,11 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
     <style>
-    /* =====================================================
-       VARIABLES & RESET
-       CSS navbar & footer sudah dipindah ke partials/navbar.blade.php
-       dan partials/footer.blade.php — tidak perlu ditulis ulang di sini
-    ===================================================== */
     :root {
         --blue:    #1c64f2;
         --blue-dk: #1a56db;
@@ -30,126 +25,71 @@
         --orange:  #f59e0b;
         --red:     #ef4444;
     }
-
     *, *::before, *::after { box-sizing: border-box; }
-
     body {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        background: var(--white);
-        color: var(--slate);
-        font-size: 14px;
-        line-height: 1.6;
+        background: var(--white); color: var(--slate);
+        font-size: 14px; line-height: 1.6;
     }
-
-    /* =====================================================
-       HERO
-    ===================================================== */
     .hero-section {
         background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 55%, #1e4d8c 100%);
-        border-radius: 16px;
-        margin: 24px 32px;
-        padding: 56px;
-        position: relative;
-        overflow: hidden;
-        min-height: 320px;
-        display: flex;
-        align-items: center;
+        border-radius: 16px; margin: 24px 32px; padding: 56px;
+        position: relative; overflow: hidden; min-height: 320px;
+        display: flex; align-items: center;
     }
     .hero-section::before {
-        content: '';
-        position: absolute; right: -60px; top: -60px;
+        content: ''; position: absolute; right: -60px; top: -60px;
         width: 340px; height: 340px; border-radius: 50%;
         border: 40px solid rgba(255,255,255,.05);
     }
     .hero-section::after {
-        content: '';
-        position: absolute; right: 60px; top: 40px;
+        content: ''; position: absolute; right: 60px; top: 40px;
         width: 200px; height: 200px; border-radius: 50%;
         border: 24px solid rgba(255,255,255,.07);
     }
     .hero-badge {
         display: inline-flex; align-items: center; gap: 6px;
-        background: rgba(255,255,255,.12);
-        border: 1px solid rgba(255,255,255,.2);
+        background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
         border-radius: 20px; padding: 4px 12px;
-        font-size: 11px; font-weight: 700;
-        letter-spacing: .08em; text-transform: uppercase;
+        font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
         color: #fbbf24; margin-bottom: 18px;
     }
-    .hero-title {
-        font-size: 42px; font-weight: 800;
-        color: white; line-height: 1.15; margin-bottom: 6px;
-    }
+    .hero-title { font-size: 42px; font-weight: 800; color: white; line-height: 1.15; margin-bottom: 6px; }
     .hero-title span { color: #60a5fa; }
-    .hero-desc {
-        font-size: 14.5px; color: rgba(255,255,255,.75);
-        max-width: 480px; line-height: 1.7; margin-bottom: 28px;
-    }
+    .hero-desc { font-size: 14.5px; color: rgba(255,255,255,.75); max-width: 480px; line-height: 1.7; margin-bottom: 28px; }
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn-hero-primary {
         display: inline-flex; align-items: center; gap: 8px;
-        padding: 11px 24px; border-radius: 10px;
-        font-size: 14px; font-weight: 700;
-        background: var(--blue); color: white;
-        border: none; text-decoration: none; transition: background .18s;
+        padding: 11px 24px; border-radius: 10px; font-size: 14px; font-weight: 700;
+        background: var(--blue); color: white; border: none; text-decoration: none; transition: background .18s;
     }
     .btn-hero-primary:hover { background: var(--blue-dk); color: white; }
     .btn-hero-outline {
         display: inline-flex; align-items: center; gap: 8px;
-        padding: 11px 24px; border-radius: 10px;
-        font-size: 14px; font-weight: 700;
-        background: rgba(255,255,255,.12);
-        border: 1.5px solid rgba(255,255,255,.3);
+        padding: 11px 24px; border-radius: 10px; font-size: 14px; font-weight: 700;
+        background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.3);
         color: white; text-decoration: none; transition: all .18s;
     }
     .btn-hero-outline:hover { background: rgba(255,255,255,.2); color: white; }
     .hero-emblem {
-        position: absolute; right: 80px; top: 50%;
-        transform: translateY(-50%);
-        width: 170px; height: 170px;
-        background: rgba(255,255,255,.08);
-        border: 2px solid rgba(255,255,255,.15);
-        border-radius: 50%;
+        position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+        width: 170px; height: 170px; background: rgba(255,255,255,.08);
+        border: 2px solid rgba(255,255,255,.15); border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
         color: rgba(255,255,255,.6); font-size: 70px;
     }
-
-    /* =====================================================
-       MAIN CONTENT
-    ===================================================== */
     .content-area { padding: 0 32px 40px; }
-    .section-label {
-        font-size: 13px; font-weight: 700; color: var(--navy);
-        display: flex; align-items: center; gap: 8px; margin-bottom: 18px;
-    }
+    .section-label { font-size: 13px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
     .section-label i { color: var(--blue); font-size: 18px; }
-
-    /* =====================================================
-       AKSES CEPAT
-    ===================================================== */
     .akses-card {
-        background: white; border: 1px solid var(--border);
-        border-radius: 14px; padding: 24px 18px;
-        text-align: center; text-decoration: none;
-        color: var(--navy); display: block;
-        transition: all .2s; height: 100%;
+        background: white; border: 1px solid var(--border); border-radius: 14px;
+        padding: 24px 18px; text-align: center; text-decoration: none;
+        color: var(--navy); display: block; transition: all .2s; height: 100%;
     }
-    .akses-card:hover {
-        box-shadow: 0 8px 24px rgba(28,100,242,.12);
-        transform: translateY(-3px);
-        border-color: #bfdbfe; color: var(--blue);
-    }
-    .akses-icon {
-        width: 52px; height: 52px; border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 24px; margin: 0 auto 14px;
-    }
+    .akses-card:hover { box-shadow: 0 8px 24px rgba(28,100,242,.12); transform: translateY(-3px); border-color: #bfdbfe; color: var(--blue); }
+    .akses-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 14px; }
     .akses-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
     .akses-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-    /* =====================================================
-       BERITA
-    ===================================================== */
     .berita-wrap { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
     .berita-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     .berita-header-title { font-size: 14px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 7px; }
@@ -168,10 +108,6 @@
     .berita-item-title { font-size: 13.5px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 5px; }
     .berita-item-desc  { font-size: 12px; color: var(--muted); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .berita-date { font-size: 11px; color: var(--muted); }
-
-    /* =====================================================
-       SIDEBAR
-    ===================================================== */
     .sidebar-card { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
     .sidebar-card:last-child { margin-bottom: 0; }
     .jam-header { background: var(--blue); padding: 14px 18px; display: flex; align-items: center; gap: 10px; }
@@ -196,22 +132,11 @@
     .bantuan-icon.blue  { background: #eff6ff; color: var(--blue); }
     .bantuan-label { font-size: 11px; color: var(--muted); line-height: 1.2; }
     .bantuan-value { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.2; }
-
-    /* =====================================================
-       ANIMATIONS
-    ===================================================== */
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .fade-up   { animation: fadeUp .5s ease both; }
     .fade-up-1 { animation-delay: .1s; }
     .fade-up-2 { animation-delay: .2s; }
     .fade-up-3 { animation-delay: .3s; }
-
-    /* =====================================================
-       RESPONSIVE (hero & content saja, navbar/footer ada di partial)
-    ===================================================== */
     @media (max-width: 991px) {
         .hero-section { margin: 16px; padding: 36px 28px; }
         .hero-title   { font-size: 30px; }
@@ -242,9 +167,16 @@
             Selamat datang di portal resmi pelayanan publik. Dapatkan akses mudah ke informasi terkini, layanan administrasi kependudukan, dan pengajuan surat secara online.
         </p>
         <div class="hero-actions">
-            <a href="{{ route('login') }}" class="btn-hero-primary">
-                <i class="bi bi-file-earmark-text"></i> Ajukan Surat
-            </a>
+            {{-- ✅ FIX: cek login sebelum arahkan ke create --}}
+            @auth
+                <a href="{{ route('user.permohonan.create') }}" class="btn-hero-primary">
+                    <i class="bi bi-file-earmark-text"></i> Ajukan Surat
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-hero-primary">
+                    <i class="bi bi-file-earmark-text"></i> Ajukan Surat
+                </a>
+            @endauth
             <a href="#layanan" class="btn-hero-outline">
                 <i class="bi bi-info-circle"></i> Panduan Layanan
             </a>
@@ -265,8 +197,10 @@
                     <i class="bi bi-grid-fill"></i> Akses Cepat
                 </div>
                 <div class="row g-3">
+
+                    {{-- Berita: publik, tidak perlu login --}}
                     <div class="col-md-4 col-6">
-                        <a href="#" class="akses-card">
+                        <a href="{{ route('informasi.berita') }}" class="akses-card">
                             <div class="akses-icon" style="background:#fef3c7;color:#d97706">
                                 <i class="bi bi-calendar-event-fill"></i>
                             </div>
@@ -274,8 +208,10 @@
                             <div class="akses-desc">Informasi kegiatan dan pengumuman terbaru...</div>
                         </a>
                     </div>
+
+                    {{-- Layanan Administrasi: publik --}}
                     <div class="col-md-4 col-6">
-                        <a href="{{ route('login') }}" class="akses-card">
+                        <a href="{{ route('layanan') }}" class="akses-card">
                             <div class="akses-icon" style="background:#eff6ff;color:var(--blue)">
                                 <i class="bi bi-people-fill"></i>
                             </div>
@@ -283,8 +219,14 @@
                             <div class="akses-desc">Panduan lengkap pengurusan dokumen...</div>
                         </a>
                     </div>
+
+                    {{-- ✅ FIX: Permohonan Surat — cek login --}}
                     <div class="col-md-4 col-6">
-                        <a href="{{ route('login') }}" class="akses-card">
+                        @auth
+                            <a href="{{ route('user.permohonan.create') }}" class="akses-card">
+                        @else
+                            <a href="{{ route('login') }}" class="akses-card">
+                        @endauth
                             <div class="akses-icon" style="background:#eff6ff;color:var(--blue)">
                                 <i class="bi bi-file-earmark-text-fill"></i>
                             </div>
@@ -292,6 +234,7 @@
                             <div class="akses-desc">Buat surat pengantar dan keterangan secara online.</div>
                         </a>
                     </div>
+
                 </div>
             </div>
 
@@ -301,7 +244,7 @@
                         <div class="berita-header-title">
                             <i class="bi bi-newspaper"></i> Kabar Kelurahan Terkini
                         </div>
-                        <a href="#" class="link-semua">
+                        <a href="{{ route('informasi.berita') }}" class="link-semua">
                             Lihat Semua <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
