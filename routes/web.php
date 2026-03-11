@@ -46,12 +46,9 @@ Route::prefix('admin')->group(function () {
 // =========================================================
 Route::middleware('auth')->group(function () {
 
-    // Tidak ada lagi /dashboard — setelah login user ke halaman home (/)
-
-    Route::get('/permohonan',        [PermohonanUserController::class, 'index'])  ->name('user.permohonan.index');
-    Route::get('/permohonan/create', [PermohonanUserController::class, 'create']) ->name('user.permohonan.create');
-    Route::post('/permohonan',       [PermohonanUserController::class, 'store'])  ->name('user.permohonan.store');
-
+Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('permohonan', PermohonanUserController::class);
+    });
     Route::get('/profile',  [ProfileController::class, 'edit'])  ->name('profile.edit');
     Route::put('/profile',  [ProfileController::class, 'update'])->name('profile.update');
 });

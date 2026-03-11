@@ -6,20 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->rememberToken();
-    });
-}
+    {
+        if (!Schema::hasColumn('users', 'remember_token')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->rememberToken();
+            });
+        }
+    }
 
-public function down(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('remember_token');
-    });
-}
+    public function down(): void
+    {
+        if (Schema::hasColumn('users', 'remember_token')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('remember_token');
+            });
+        }
+    }
 };
