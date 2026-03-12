@@ -3,328 +3,473 @@
 @section('title', 'Data Permohonan')
 
 @section('content')
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
     :root {
-        --primary: #1c64f2;
-        --primary-light: #eff6ff;
-        --success: #16a34a;
-        --warning: #d97706;
-        --danger:  #dc2626;
-        --gray-50:  #f9fafb;
-        --gray-100: #f3f4f6;
-        --gray-200: #e5e7eb;
-        --gray-300: #d1d5db;
-        --gray-400: #9ca3af;
-        --gray-500: #6b7280;
-        --gray-600: #4b5563;
-        --gray-700: #374151;
-        --gray-800: #1f2937;
-        --gray-900: #111827;
-        --white: #ffffff;
+        --primary:        #2563eb;
+        --primary-light:  #dbeafe;
+        --primary-dark:   #1d4ed8;
+        --success:        #059669;
+        --success-light:  #d1fae5;
+        --warning:        #d97706;
+        --warning-light:  #fef3c7;
+        --danger:         #dc2626;
+        --danger-light:   #fee2e2;
+        --gray-50:        #f8fafc;
+        --gray-100:       #f1f5f9;
+        --gray-200:       #e2e8f0;
+        --gray-300:       #cbd5e1;
+        --gray-400:       #94a3b8;
+        --gray-500:       #64748b;
+        --gray-600:       #475569;
+        --gray-700:       #334155;
+        --gray-800:       #1e293b;
+        --gray-900:       #0f172a;
+        --white:          #ffffff;
+        --radius-sm:      8px;
+        --radius-md:      12px;
+        --radius-lg:      16px;
+        --shadow-sm:      0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+        --shadow-md:      0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
     }
+
+    * { box-sizing: border-box; }
+
+    body { background: var(--gray-50); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* ── PAGE WRAPPER ── */
+    .perm-page { max-width: 1280px; margin: 0 auto; padding: 32px 24px 48px; }
 
     /* ── PAGE HEADER ── */
-    .page-top {
-        display: flex; align-items: center; justify-content: space-between;
-        margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+    .page-hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+        border-radius: var(--radius-lg);
+        padding: 32px 36px;
+        margin-bottom: 28px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(37,99,235,.3);
     }
-    .page-top h1 {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 22px; font-weight: 800; color: var(--gray-900);
+    .page-hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-    .page-top p { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+    .page-hero-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .page-hero h1 { font-size: 26px; font-weight: 800; color: #fff; margin: 0 0 6px; letter-spacing: -.3px; }
+    .page-hero p  { font-size: 14px; color: rgba(255,255,255,.75); margin: 0; }
+    .hero-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.25);
+        padding: 6px 14px; border-radius: 20px;
+        font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap;
+    }
+    .hero-badge svg { width: 13px; height: 13px; }
 
-    /* ── STATS ROW ── */
-    .stats-row {
+    /* ── STATS GRID ── */
+    .stats-grid {
         display: grid; grid-template-columns: repeat(4, 1fr);
         gap: 16px; margin-bottom: 24px;
     }
     .stat-card {
-        background: var(--white); border: 1px solid var(--gray-200);
-        border-radius: 12px; padding: 16px 20px;
-        display: flex; align-items: center; gap: 14px;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        display: flex; align-items: center; gap: 16px;
+        box-shadow: var(--shadow-sm);
+        transition: transform .2s, box-shadow .2s;
+        position: relative; overflow: hidden;
     }
+    .stat-card::after {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .stat-card.blue::after   { background: var(--primary); }
+    .stat-card.yellow::after { background: var(--warning); }
+    .stat-card.green::after  { background: var(--success); }
+    .stat-card.red::after    { background: var(--danger); }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
     .stat-icon {
-        width: 42px; height: 42px; border-radius: 10px;
+        width: 48px; height: 48px; border-radius: var(--radius-sm);
         display: grid; place-items: center; flex-shrink: 0;
     }
-    .stat-icon svg { width: 20px; height: 20px; }
-    .stat-icon.blue   { background: #eff6ff; color: var(--primary); }
-    .stat-icon.yellow { background: #fffbeb; color: var(--warning); }
-    .stat-icon.green  { background: #f0fdf4; color: var(--success); }
-    .stat-icon.red    { background: #fef2f2; color: var(--danger);  }
-    .stat-info small  { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-    .stat-info strong { font-size: 22px; font-weight: 800; color: var(--gray-900); display: block; line-height: 1.2; }
+    .stat-icon svg { width: 22px; height: 22px; }
+    .stat-icon.blue   { background: var(--primary-light); color: var(--primary); }
+    .stat-icon.yellow { background: var(--warning-light);  color: var(--warning); }
+    .stat-icon.green  { background: var(--success-light);  color: var(--success); }
+    .stat-icon.red    { background: var(--danger-light);   color: var(--danger); }
+    .stat-info small  { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gray-400); }
+    .stat-info strong { font-size: 28px; font-weight: 800; color: var(--gray-900); display: block; line-height: 1.1; margin-top: 2px; font-family: 'DM Mono', monospace; }
 
-    /* ── FILTER BAR ── */
-    .filter-bar {
-        background: var(--white); border: 1px solid var(--gray-200);
-        border-radius: 12px; padding: 14px 20px;
-        display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    /* ── TOOLBAR ── */
+    .toolbar {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-sm);
+        flex-wrap: wrap;
     }
-    .filter-bar input, .filter-bar select {
-        border: 1.5px solid var(--gray-200); border-radius: 8px;
-        padding: 7px 12px; font-size: 13px; color: var(--gray-700);
-        outline: none; transition: border-color .15s; background: var(--gray-50);
+    .search-wrap { position: relative; }
+    .search-wrap input {
+        width: 280px; padding: 9px 12px 9px 38px;
+        border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+        font-size: 13px; color: var(--gray-700); background: var(--gray-50);
+        outline: none; transition: all .15s; font-family: inherit;
     }
-    .filter-bar input:focus, .filter-bar select:focus { border-color: var(--primary); background: var(--white); }
-    .filter-bar input { width: 240px; }
-    .search-icon { position: relative; }
-    .search-icon input { padding-left: 34px; }
-    .search-icon svg {
-        position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    .search-wrap input:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+    .search-wrap svg {
+        position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
         width: 15px; height: 15px; color: var(--gray-400); pointer-events: none;
     }
-    .filter-bar .ms-auto { margin-left: auto; }
+    .toolbar select {
+        padding: 9px 36px 9px 12px;
+        border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+        font-size: 13px; color: var(--gray-700); background: var(--gray-50);
+        outline: none; cursor: pointer; font-family: inherit;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 10px center;
+        transition: all .15s;
+    }
+    .toolbar select:focus { border-color: var(--primary); background-color: var(--white); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+    .toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .results-label { font-size: 12px; color: var(--gray-400); font-weight: 500; }
 
-    /* ── TABLE ── */
+    /* ── TABLE CARD ── */
     .table-card {
-        background: var(--white); border: 1px solid var(--gray-200);
-        border-radius: 14px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,.05);
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
     }
     table { width: 100%; border-collapse: collapse; }
+    thead tr { background: var(--gray-50); }
     thead th {
-        background: var(--gray-50); padding: 11px 16px;
-        text-align: left; font-size: 11px; font-weight: 700;
-        text-transform: uppercase; letter-spacing: .07em;
-        color: var(--gray-500); border-bottom: 1px solid var(--gray-200);
+        padding: 13px 18px;
+        text-align: left; font-size: 10.5px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: .1em;
+        color: var(--gray-400); border-bottom: 1px solid var(--gray-200);
         white-space: nowrap;
     }
-    tbody tr { border-bottom: 1px solid var(--gray-100); transition: background .12s; }
+    tbody tr { border-bottom: 1px solid var(--gray-100); transition: background .1s; }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: var(--gray-50); }
-    tbody td { padding: 13px 16px; font-size: 13px; color: var(--gray-700); vertical-align: middle; }
-    .td-no { color: var(--gray-400); font-size: 12px; font-weight: 600; }
-    .td-name { font-weight: 600; color: var(--gray-900); }
-    .td-name small { display: block; font-size: 11px; font-weight: 400; color: var(--gray-400); margin-top: 1px; }
-    .td-surat { font-weight: 500; }
-    .td-date  { color: var(--gray-500); font-size: 12px; }
+    tbody tr:hover { background: #f8faff; }
+    tbody td { padding: 15px 18px; font-size: 13px; color: var(--gray-700); vertical-align: middle; }
 
-    /* ── BADGE STATUS ── */
-    .pill {
-        display: inline-flex; align-items: center; gap: 5px;
-        padding: 3px 10px; border-radius: 20px;
-        font-size: 11px; font-weight: 700; white-space: nowrap;
+    .td-no {
+        font-family: 'DM Mono', monospace;
+        color: var(--gray-300); font-size: 12px; font-weight: 500;
     }
-    .pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
-    .pill-pending  { background: #fef9c3; color: #854d0e; }
-    .pill-pending::before  { background: #ca8a04; }
-    .pill-approved { background: #dcfce7; color: #14532d; }
-    .pill-approved::before { background: #16a34a; }
-    .pill-rejected { background: #fee2e2; color: #7f1d1d; }
-    .pill-rejected::before { background: #dc2626; }
+    .td-name { font-weight: 700; color: var(--gray-900); font-size: 13.5px; }
+    .td-name small { display: block; font-size: 11px; font-weight: 400; color: var(--gray-400); margin-top: 2px; font-family: 'DM Mono', monospace; }
+    .td-surat { font-weight: 600; color: var(--gray-800); }
+    .td-date  { color: var(--gray-400); font-size: 12px; font-family: 'DM Mono', monospace; }
+
+    /* ── PILL STATUS ── */
+    .status-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 12px; border-radius: 20px;
+        font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .status-pending  { background: #fef3c7; color: #92400e; }
+    .status-pending .status-dot  { background: #d97706; animation: pulse-warn 1.5s infinite; }
+    .status-approved { background: #d1fae5; color: #064e3b; }
+    .status-approved .status-dot { background: #059669; }
+    .status-rejected { background: #fee2e2; color: #7f1d1d; }
+    .status-rejected .status-dot { background: #dc2626; }
+
+    @keyframes pulse-warn {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: .6; transform: scale(1.3); }
+    }
 
     /* ── ACTION BUTTONS ── */
-    .action-group { display: flex; align-items: center; gap: 6px; }
-    .btn-sm {
+    .action-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .btn-act {
         display: inline-flex; align-items: center; gap: 5px;
-        padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 600;
-        cursor: pointer; border: none; transition: all .15s; text-decoration: none; white-space: nowrap;
+        padding: 6px 12px; border-radius: var(--radius-sm);
+        font-size: 12px; font-weight: 700; cursor: pointer;
+        border: none; transition: all .15s; text-decoration: none; white-space: nowrap;
+        font-family: inherit;
     }
-    .btn-sm svg { width: 13px; height: 13px; }
+    .btn-act svg { width: 13px; height: 13px; }
     .btn-detail  { background: var(--primary-light); color: var(--primary); }
-    .btn-detail:hover  { background: #dbeafe; color: #1e3a8a; }
-    .btn-approve { background: #dcfce7; color: #15803d; }
-    .btn-approve:hover { background: #bbf7d0; }
-    .btn-reject  { background: #fee2e2; color: #b91c1c; }
+    .btn-detail:hover  { background: #bfdbfe; }
+    .btn-approve { background: var(--success-light); color: #047857; }
+    .btn-approve:hover { background: #a7f3d0; }
+    .btn-reject  { background: var(--danger-light); color: #b91c1c; }
     .btn-reject:hover  { background: #fecaca; }
-
-    /* ── EMPTY STATE ── */
-    .empty-state { text-align: center; padding: 60px 20px; }
-    .empty-state svg { width: 48px; height: 48px; color: var(--gray-300); margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; color: var(--gray-400); }
+    .btn-print   { background: #f3e8ff; color: #7c3aed; }
+    .btn-print:hover   { background: #ede9fe; }
 
     /* ── ALERT ── */
     .alert-success {
-        display: flex; align-items: center; gap: 10px;
-        padding: 12px 16px; border-radius: 9px; margin-bottom: 20px;
-        background: #f0fdf4; border: 1px solid #bbf7d0;
-        font-size: 13px; color: #166534;
+        display: flex; align-items: center; gap: 12px;
+        padding: 14px 18px; border-radius: var(--radius-md);
+        margin-bottom: 20px;
+        background: #ecfdf5; border: 1px solid #6ee7b7;
+        font-size: 13px; color: #065f46; font-weight: 500;
+        animation: slideDown .3s ease;
     }
-    .alert-success svg { flex-shrink: 0; width: 16px; height: 16px; }
+    .alert-success svg { flex-shrink: 0; width: 18px; height: 18px; }
 
-    @media (max-width: 768px) {
-        .stats-row { grid-template-columns: repeat(2, 1fr); }
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 64px 20px; }
+    .empty-icon { width: 64px; height: 64px; background: var(--gray-100); border-radius: 50%; display: grid; place-items: center; margin: 0 auto 16px; }
+    .empty-icon svg { width: 28px; height: 28px; color: var(--gray-300); }
+    .empty-state h3 { font-size: 15px; font-weight: 700; color: var(--gray-600); margin: 0 0 6px; }
+    .empty-state p  { font-size: 13px; color: var(--gray-400); margin: 0; }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .page-hero { padding: 24px 20px; }
+        .page-hero h1 { font-size: 20px; }
+        .search-wrap input { width: 200px; }
     }
 </style>
 
-<!-- PAGE TOP -->
-<div class="page-top">
-    <div>
-        <h1>Data Permohonan Surat</h1>
-        <p>Kelola dan proses semua permohonan surat dari masyarakat</p>
-    </div>
-</div>
+<div class="perm-page">
 
-@if(session('success'))
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <div>
+                <h1>Data Permohonan Surat</h1>
+                <p>Kelola dan proses semua permohonan surat dari masyarakat Kelurahan Teritih</p>
+            </div>
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{ \Carbon\Carbon::now()->format('d M Y') }}
+            </div>
+        </div>
+    </div>
+
+    @if(session('success'))
     <div class="alert-success">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="20 6 9 17 4 12"/>
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         {{ session('success') }}
     </div>
-@endif
+    @endif
 
-<!-- STATS -->
-<div class="stats-row">
-    <div class="stat-card">
-        <div class="stat-icon blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <small>Total Permohonan</small>
+                <strong>{{ $data->count() }}</strong>
+            </div>
         </div>
-        <div class="stat-info">
-            <small>Total</small>
-            <strong>{{ $data->count() }}</strong>
+        <div class="stat-card yellow">
+            <div class="stat-icon yellow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <small>Menunggu Proses</small>
+                <strong>{{ $data->filter(fn($d) => optional($d->approval)->status === null || optional($d->approval)->status === 'pending')->count() }}</strong>
+            </div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <small>Disetujui</small>
+                <strong>{{ $data->filter(fn($d) => optional($d->approval)->status === 'disetujui')->count() }}</strong>
+            </div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <small>Ditolak</small>
+                <strong>{{ $data->filter(fn($d) => optional($d->approval)->status === 'ditolak')->count() }}</strong>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon yellow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-        </div>
-        <div class="stat-info">
-            <small>Pending</small>
-            <strong>{{ $data->filter(fn($d) => !$d->approval || $d->approval->status === 'pending')->count() }}</strong>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon green">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-            </svg>
-        </div>
-        <div class="stat-info">
-            <small>Disetujui</small>
-            <strong>{{ $data->filter(fn($d) => $d->approval && $d->approval->status === 'approved')->count() }}</strong>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon red">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
-            </svg>
-        </div>
-        <div class="stat-info">
-            <small>Ditolak</small>
-            <strong>{{ $data->filter(fn($d) => $d->approval && $d->approval->status === 'rejected')->count() }}</strong>
-        </div>
-    </div>
-</div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-    <div class="search-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-        <input type="text" id="searchInput" placeholder="Cari nama pemohon atau jenis surat..." oninput="filterTable()"/>
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Cari pemohon atau jenis surat…" oninput="filterTable()"/>
+        </div>
+        <select id="statusFilter" onchange="filterTable()">
+            <option value="">Semua Status</option>
+            <option value="pending">Pending</option>
+            <option value="disetujui">Disetujui</option>
+            <option value="ditolak">Ditolak</option>
+        </select>
+        <div class="toolbar-right">
+            <span class="results-label" id="resultsCount"></span>
+        </div>
     </div>
-    <select id="statusFilter" onchange="filterTable()">
-        <option value="">Semua Status</option>
-        <option value="pending">Pending</option>
-        <option value="approved">Disetujui</option>
-        <option value="rejected">Ditolak</option>
-    </select>
-</div>
 
-<!-- TABLE -->
-<div class="table-card">
-    <table id="permohonanTable">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Pemohon</th>
-                <th>Jenis Surat</th>
-                <th>Tanggal Pengajuan</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($data as $d)
-            @php $status = $d->approval->status ?? 'pending'; @endphp
-            <tr data-status="{{ $status }}" data-name="{{ strtolower($d->user->nama ?? '') }}" data-surat="{{ strtolower($d->jenisSurat->nama_surat ?? '') }}">
-                <td class="td-no">{{ $loop->iteration }}</td>
-                <td>
-                    <div class="td-name">
-                        {{ $d->user->nama ?? '-' }}
-                        <small>NIK: {{ $d->user->nik ?? '-' }}</small>
-                    </div>
-                </td>
-                <td class="td-surat">{{ $d->jenisSurat->nama_surat ?? '-' }}</td>
-                <td class="td-date">
-                    {{ \Carbon\Carbon::parse($d->tanggal_pengajuan)->format('d M Y') }}
-                </td>
-                <td>
-                    <span class="pill pill-{{ $status }}">
-                        {{ strtoupper($status) }}
-                    </span>
-                </td>
-                <td>
-                    <div class="action-group">
-                        <a href="{{ route('permohonan.show', $d->id_permohonan) }}" class="btn-sm btn-detail">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                            </svg>
-                            Detail
-                        </a>
-                        @if(!$d->approval || $d->approval->status === 'pending')
-                            <form action="{{ route('permohonan.approve', $d->id_permohonan) }}" method="POST" style="display:inline;">
-                                @csrf @method('PUT')
-                                <button type="submit" class="btn-sm btn-approve"
-                                        onclick="return confirm('Setujui permohonan dari {{ $d->user->nama ?? '' }}?')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <polyline points="20 6 9 17 4 12"/>
-                                    </svg>
-                                    Setujui
-                                </button>
-                            </form>
-                            <form action="{{ route('permohonan.reject', $d->id_permohonan) }}" method="POST" style="display:inline;">
-                                @csrf @method('PUT')
-                                <button type="submit" class="btn-sm btn-reject"
-                                        onclick="return confirm('Tolak permohonan dari {{ $d->user->nama ?? '' }}?')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                                    </svg>
-                                    Tolak
-                                </button>
-                            </form>
+    <!-- TABLE -->
+    <div class="table-card">
+        <table id="permohonanTable">
+            <thead>
+                <tr>
+                    <th style="width:48px">No</th>
+                    <th>Pemohon</th>
+                    <th>Jenis Surat</th>
+                    <th>Tanggal Pengajuan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($data as $d)
+                @php
+                    $approvalStatus = optional($d->approval)->status;
+                    $rowStatus = $approvalStatus ?? 'pending';
+                @endphp
+                <tr data-status="{{ $rowStatus }}"
+                    data-name="{{ strtolower($d->user->nama ?? '') }}"
+                    data-surat="{{ strtolower($d->jenisSurat->nama_surat ?? '') }}">
+                    <td class="td-no">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</td>
+                    <td>
+                        <div class="td-name">
+                            {{ $d->user->nama ?? '-' }}
+                            <small>NIK: {{ $d->user->nik ?? '-' }}</small>
+                        </div>
+                    </td>
+                    <td class="td-surat">{{ $d->jenisSurat->nama_surat ?? '-' }}</td>
+                    <td class="td-date">{{ \Carbon\Carbon::parse($d->tanggal_pengajuan)->format('d M Y') }}</td>
+                    <td>
+                        @if($rowStatus === 'disetujui')
+                            <span class="status-pill status-approved">
+                                <span class="status-dot"></span> Disetujui
+                            </span>
+                        @elseif($rowStatus === 'ditolak')
+                            <span class="status-pill status-rejected">
+                                <span class="status-dot"></span> Ditolak
+                            </span>
+                        @else
+                            <span class="status-pill status-pending">
+                                <span class="status-dot"></span> Pending
+                            </span>
                         @endif
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="6">
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <p>Belum ada data permohonan</p>
-                    </div>
-                </td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            <a href="{{ route('permohonan.show', $d->id_permohonan) }}" class="btn-act btn-detail">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                Detail
+                            </a>
+
+                            @if($rowStatus === 'disetujui')
+                                <a href="{{ route('permohonan.show', $d->id_permohonan) }}?print=1"
+                                   target="_blank" class="btn-act btn-print">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 6 2 18 2 18 9"/>
+                                        <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+                                        <rect x="6" y="14" width="12" height="8"/>
+                                    </svg>
+                                    Cetak
+                                </a>
+                            @endif
+
+                            @if($rowStatus === 'pending')
+                                <form action="{{ route('permohonan.approve', $d->id_permohonan) }}" method="POST" style="display:inline;">
+                                    @csrf @method('PUT')
+                                    <button type="submit" class="btn-act btn-approve"
+                                            onclick="return confirm('Setujui permohonan dari {{ addslashes($d->user->nama ?? '') }}?')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                        Setujui
+                                    </button>
+                                </form>
+                                <form action="{{ route('permohonan.reject', $d->id_permohonan) }}" method="POST" style="display:inline;">
+                                    @csrf @method('PUT')
+                                    <button type="submit" class="btn-act btn-reject"
+                                            onclick="return confirm('Tolak permohonan dari {{ addslashes($d->user->nama ?? '') }}?')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                                        </svg>
+                                        Tolak
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <h3>Belum Ada Permohonan</h3>
+                            <p>Data permohonan surat dari masyarakat akan muncul di sini</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /perm-page -->
 
 <script>
 function filterTable() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const status = document.getElementById('statusFilter').value.toLowerCase();
     const rows   = document.querySelectorAll('#permohonanTable tbody tr[data-status]');
+    let visible  = 0;
     rows.forEach(row => {
-        const name  = row.dataset.name  || '';
-        const surat = row.dataset.surat || '';
+        const name      = row.dataset.name  || '';
+        const surat     = row.dataset.surat || '';
         const rowStatus = row.dataset.status || '';
-        const matchSearch = name.includes(search) || surat.includes(search);
-        const matchStatus = !status || rowStatus === status;
-        row.style.display = matchSearch && matchStatus ? '' : 'none';
+        const ok = (name.includes(search) || surat.includes(search)) && (!status || rowStatus === status);
+        row.style.display = ok ? '' : 'none';
+        if (ok) visible++;
     });
+    const lbl = document.getElementById('resultsCount');
+    if (lbl) lbl.textContent = `${visible} data ditemukan`;
 }
+filterTable();
 </script>
 
 @endsection

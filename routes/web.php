@@ -36,6 +36,8 @@ Route::prefix('admin')->group(function () {
         Route::get('permohonan/{id}',         [PermohonanController::class, 'show'])   ->name('permohonan.show');
         Route::put('permohonan/{id}/approve', [PermohonanController::class, 'approve'])->name('permohonan.approve');
         Route::put('permohonan/{id}/reject',  [PermohonanController::class, 'reject']) ->name('permohonan.reject');
+        Route::get('/permohonan/{id}/print', [PermohonanController::class, 'print'])->name('permohonan.print');
+        Route::post('/upload-ttd', [PermohonanController::class, 'uploadTtd'])->name('admin.upload-ttd');
 
         Route::resource('informasi-admin', InformasiKelurahanController::class);
     });

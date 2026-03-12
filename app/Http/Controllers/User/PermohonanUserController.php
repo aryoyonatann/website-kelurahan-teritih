@@ -31,10 +31,7 @@ class PermohonanUserController extends Controller
      */
     public function create(Request $request)
     {
-        // Kirim semua jenis surat untuk ditampilkan sebagai dropdown
         $daftarJenisSurat = JenisSurat::all();
-
-        // Jika ada query string ?jenis_surat=1, pre-select dropdown
         $selectedJenis = $request->jenis_surat ?? null;
 
         return view('User.permohonan.create', compact('daftarJenisSurat', 'selectedJenis'));
@@ -48,7 +45,6 @@ class PermohonanUserController extends Controller
         $request->validate([
             'id_jenis_surat'  => 'required|exists:jenis_surat,id_jenis_surat',
             'keperluan'       => 'required|string|max:500',
-            // Multiple file: dokumen[] max 5 file, masing-masing max 2MB
             'dokumen'         => 'nullable|array|max:5',
             'dokumen.*'       => 'file|mimes:pdf,jpg,jpeg,png|max:10240',
         ], [
@@ -60,15 +56,15 @@ class PermohonanUserController extends Controller
             'dokumen.*.max'           => 'Ukuran setiap file maksimal 2MB.',
         ]);
 
-        // 1. Simpan ke tabel permohonan_surat
+        // ✅ Simpan datetime lengkap (tanggal + jam) bukan hanya tanggal
         $permohonan = PermohonanSurat::create([
             'id_user'           => Auth::id(),
             'id_jenis_surat'    => $request->id_jenis_surat,
             'keperluan'         => $request->keperluan,
-            'tanggal_pengajuan' => now()->toDateString(),
+            'tanggal_pengajuan' => now(), // ✅ Sudah otomatis WIB karena timezone di config/app.php
         ]);
 
-        // 2. Simpan semua file ke tabel persyaratan (bisa lebih dari 1)
+        // Simpan semua file ke tabel persyaratan
         if ($request->hasFile('dokumen')) {
             foreach ($request->file('dokumen') as $file) {
                 if ($file->isValid()) {
@@ -147,7 +143,6 @@ class PermohonanUserController extends Controller
         $permohonan->save();
 
         // Tambah file baru ke persyaratan (tidak hapus yang lama)
-        // Total file lama + baru tidak boleh melebihi 5
         if ($request->hasFile('dokumen')) {
             $jumlahLama = $permohonan->persyaratan()->count();
             $filesBaru  = $request->file('dokumen');

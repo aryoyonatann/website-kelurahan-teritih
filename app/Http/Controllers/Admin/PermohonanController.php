@@ -11,8 +11,14 @@ class PermohonanController extends Controller
 {
     public function index()
     {
-        $data = PermohonanSurat::with(['user','jenisSurat','approval'])->get();
+        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval'])->latest('tanggal_pengajuan')->get();
         return view('admin.permohonan.index', compact('data'));
+    }
+
+    public function show($id)
+    {
+        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval'])->findOrFail($id);
+        return view('admin.permohonan.show', compact('data'));
     }
 
     public function approve($id)
@@ -20,13 +26,13 @@ class PermohonanController extends Controller
         Approval::updateOrCreate(
             ['id_permohonan' => $id],
             [
-                'id_admin' => 1, // sementara isi manual
-                'status' => 'disetujui',
-                'tanggal_approval' => now()
+                'id_admin'         => auth('admin')->id() ?? 1,
+                'status'           => 'disetujui',
+                'tanggal_approval' => now(),
             ]
         );
 
-        return redirect()->back()->with('success', 'Permohonan disetujui');
+        return redirect()->back()->with('success', 'Permohonan berhasil disetujui.');
     }
 
     public function reject($id)
@@ -34,22 +40,29 @@ class PermohonanController extends Controller
         Approval::updateOrCreate(
             ['id_permohonan' => $id],
             [
-                'id_admin' => auth('admin')->id(),
-                'status' => 'ditolak',
-                'tanggal_approval' => now()
+                'id_admin'         => auth('admin')->id() ?? 1,
+                'status'           => 'ditolak',
+                'tanggal_approval' => now(),
             ]
         );
 
-        return redirect()->back()->with('success', 'Permohonan ditolak');
+        return redirect()->back()->with('success', 'Permohonan berhasil ditolak.');
     }
-    public function show($id)
-{
-    $data = PermohonanSurat::with([
-        'user',
-        'jenisSurat',
-        'approval'
-    ])->findOrFail($id);
 
-    return view('admin.permohonan.show', compact('data'));
-}
+    public function print($id)
+    {
+        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval'])->findOrFail($id);
+        return view('admin.permohonan.show', compact('data'));
+    }
+
+    public function uploadTtd(Request $request)
+    {
+        $request->validate([
+            'ttd' => 'required|image|mimes:png,jpeg,jpg|max:2048',
+        ]);
+
+        $request->file('ttd')->storeAs('ttd', 'ttd_lurah.png', 'public');
+
+        return redirect()->back()->with('success', 'Tanda tangan berhasil diupload.');
+    }
 }

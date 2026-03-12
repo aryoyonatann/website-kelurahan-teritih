@@ -337,10 +337,10 @@
 
     <ul class="reg-nav-links">
         <li><a href="{{ route('home') }}">Beranda</a></li>
-        <li><a href="#">Profil</a></li>
-        <li><a href="#">Layanan</a></li>
-        <li><a href="#">Informasi</a></li>
-        <li><a href="#">Kontak</a></li>
+        <li><a href="{{ route('profil') }}">Profil</a></li>
+        <li><a href="{{ route('layanan') }}">Layanan</a></li>
+        <li><a href="{{ route('informasi') }}">Informasi</a></li>
+        <li><a href="{{ route('kontak') }}">Kontak</a></li>
     </ul>
 
     <div class="reg-nav-cta">
