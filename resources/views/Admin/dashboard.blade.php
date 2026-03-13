@@ -37,81 +37,6 @@ body {
 }
 
 /* =========================================================
-   HEADER
-========================================================= */
-.app-header {
-    position: sticky;
-    top: 0;
-    z-index: 1030;
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    height: 62px;
-    gap: 20px;
-}
-
-.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-
-.brand-logo {
-    width: 36px; height: 36px;
-    background: var(--blue);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 17px;
-}
-
-.brand-text    { display: flex; flex-direction: column; line-height: 1.2; }
-.brand-top     { font-size: 9px; font-weight: 700; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
-.brand-name    { font-size: 14px; font-weight: 700; color: var(--navy); }
-
-.header-nav    { display: flex; gap: 4px; flex: 1; justify-content: center; }
-
-.nav-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 8px;
-    font-size: 13px; font-weight: 500;
-    color: var(--slate); text-decoration: none;
-    transition: all .18s;
-}
-.nav-pill:hover      { background: var(--bg); color: var(--blue); }
-.nav-pill.active     { background: var(--blue-lt); color: var(--blue); font-weight: 600; }
-
-/* Header icon buttons */
-.hdr-icon-btn {
-    width: 36px; height: 36px;
-    background: none; border: 1px solid var(--border);
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: var(--slate); transition: all .18s; padding: 0;
-}
-.hdr-icon-btn:hover  { background: var(--bg); color: var(--blue); }
-.logout-btn:hover    { background: #fef2f2; color: var(--red); border-color: #fecaca; }
-
-.hdr-badge {
-    position: absolute; top: -4px; right: -4px;
-    background: var(--red); color: white;
-    font-size: 9px; font-weight: 700;
-    border-radius: 10px; padding: 1px 4px; line-height: 1.4;
-}
-
-.admin-chip {
-    display: flex; align-items: center; gap: 8px;
-    padding: 4px 10px; border-radius: 10px;
-    background: var(--bg); cursor: pointer;
-}
-.admin-avatar {
-    width: 30px; height: 30px;
-    background: linear-gradient(135deg, var(--blue), #60a5fa);
-    border-radius: 8px; color: white;
-    font-weight: 700; font-size: 13px;
-    display: flex; align-items: center; justify-content: center;
-}
-.admin-uname { font-size: 12px; font-weight: 600; color: var(--navy); line-height: 1.2; }
-.admin-role  { font-size: 10px; color: var(--muted); line-height: 1.2; }
-
-/* =========================================================
    PAGE CONTENT
 ========================================================= */
 .page-wrapper { padding: 28px; }
@@ -316,6 +241,7 @@ body {
 .user-av.blue   { background: linear-gradient(135deg,var(--blue),#60a5fa); }
 .user-av.green  { background: linear-gradient(135deg,var(--green),#6ee7b7); }
 .user-av.purple { background: linear-gradient(135deg,var(--purple),#c4b5fd); }
+.user-av.orange { background: linear-gradient(135deg,var(--orange),#fcd34d); }
 
 .user-nm  { font-weight: 600; color: var(--navy); font-size: 13px; line-height: 1.2; }
 .user-nik { font-size: 11px; color: var(--muted); }
@@ -323,7 +249,6 @@ body {
 /* =========================================================
    SIDEBAR
 ========================================================= */
-/* Pemberitahuan */
 .notif-item {
     display: flex; gap: 10px;
     padding: 10px 0; border-bottom: 1px dashed var(--border);
@@ -341,7 +266,6 @@ body {
 .notif-text { font-size: 12px; color: var(--slate); line-height: 1.5; }
 .notif-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-/* Jam Operasional */
 .jam-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 9px 0; border-bottom: 1px dashed var(--border);
@@ -364,63 +288,12 @@ body {
     display: flex; align-items: center; gap: 6px;
     margin-top: 12px;
 }
-
-/* =========================================================
-   FOOTER
-========================================================= */
-.app-footer {
-    background: #0f172a;
-    margin-top: 40px;
-    color: #94a3b8;
-}
-
-.footer-logo {
-    width: 32px; height: 32px; background: var(--blue);
-    border-radius: 7px; display: flex;
-    align-items: center; justify-content: center;
-    color: white; font-size: 16px;
-}
-.footer-brand-name { font-size: 16px; font-weight: 700; color: white; }
-.footer-desc       { font-size: 12.5px; color: #94a3b8; line-height: 1.7; }
-
-.footer-social {
-    width: 32px; height: 32px; background: #1e293b;
-    border-radius: 7px; display: flex;
-    align-items: center; justify-content: center;
-    color: #94a3b8; text-decoration: none;
-    font-size: 15px; transition: all .18s;
-}
-.footer-social:hover { background: var(--blue); color: white; }
-
-.footer-heading {
-    font-size: 11px; font-weight: 700; color: #cbd5e1;
-    text-transform: uppercase; letter-spacing: .08em;
-    margin-bottom: 14px;
-}
-
-.footer-links        { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.footer-links a      { color: #94a3b8; text-decoration: none; font-size: 12.5px; display: flex; align-items: center; gap: 5px; transition: color .18s; }
-.footer-links a i    { font-size: 9px; }
-.footer-links a:hover{ color: #60a5fa; }
-
-.footer-contact      { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.footer-contact li   { display: flex; gap: 10px; font-size: 12.5px; align-items: flex-start; }
-.footer-contact li i { color: #60a5fa; margin-top: 2px; flex-shrink: 0; }
-
-.footer-map          { border-radius: 8px; overflow: hidden; border: 1px solid #1e293b; }
-
-.footer-bottom {
-    border-top: 1px solid #1e293b;
-    padding: 16px 0; font-size: 12px; color: #475569;
-}
 </style>
 @endpush
 
 @section('content')
 
-{{-- ============================================================
-     HEADER
-============================================================ --}}
+{{-- HEADER --}}
 @include('admin.partials.header')
 
 <div class="page-wrapper">
@@ -448,48 +321,46 @@ body {
             <div class="stat-card">
                 <div>
                     <div class="stat-label">Total Warga</div>
-                    <div class="stat-value">12,450</div>
-                    <div class="stat-sub up">
-                        <i class="bi bi-arrow-up-short"></i> +120 minggu ini
+                    <div class="stat-value">{{ number_format($totalWarga) }}</div>
+                    <div class="stat-sub info">
+                        <i class="bi bi-people"></i> Warga terdaftar
                     </div>
                 </div>
                 <div class="stat-icon icon-blue"><i class="bi bi-people-fill"></i></div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6">
             <div class="stat-card">
                 <div>
                     <div class="stat-label">Perlu Verifikasi</div>
-                    <div class="stat-value">15</div>
+                    <div class="stat-value">{{ number_format($perluVerifikasi) }}</div>
                     <div class="stat-sub warn">
-                        <i class="bi bi-exclamation-circle"></i> Segera ditindaklanjuti
+                        <i class="bi bi-exclamation-circle"></i>
+                        {{ $perluVerifikasi > 0 ? 'Segera ditindaklanjuti' : 'Semua sudah diproses' }}
                     </div>
                 </div>
                 <div class="stat-icon icon-orange"><i class="bi bi-clipboard2-check-fill"></i></div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6">
             <div class="stat-card">
                 <div>
                     <div class="stat-label">Surat Keluar</div>
-                    <div class="stat-value">128</div>
+                    <div class="stat-value">{{ number_format($suratKeluar) }}</div>
                     <div class="stat-sub info">
-                        <i class="bi bi-envelope-check"></i> Total nilai aktif
+                        <i class="bi bi-envelope-check"></i> Total disetujui
                     </div>
                 </div>
                 <div class="stat-icon icon-green"><i class="bi bi-envelope-paper-fill"></i></div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6">
             <div class="stat-card">
                 <div>
                     <div class="stat-label">Laporan Warga</div>
-                    <div class="stat-value">7</div>
-                    <div class="stat-sub danger">
-                        <i class="bi bi-flag"></i> Belum ditangani
+                    <div class="stat-value">—</div>
+                    <div class="stat-sub muted" style="color:var(--muted)">
+                        <i class="bi bi-flag"></i> Belum tersedia
                     </div>
                 </div>
                 <div class="stat-icon icon-red"><i class="bi bi-megaphone-fill"></i></div>
@@ -500,28 +371,28 @@ body {
     {{-- ── QUICK MENU ── --}}
     <div class="row g-3 mb-4">
         <div class="col-xl-3 col-6">
-            <a href="#" class="quick-card">
+            <a href="{{ route('kependudukan.index') }}" class="quick-card">
                 <div class="quick-icon icon-blue"><i class="bi bi-person-vcard-fill"></i></div>
                 <div class="quick-title">Data Warga</div>
                 <div class="quick-desc">Kelola data kependudukan</div>
             </a>
         </div>
         <div class="col-xl-3 col-6">
-            <a href="#" class="quick-card">
+            <a href="{{ route('permohonan.index') }}" class="quick-card">
                 <div class="quick-icon" style="background:#fffbeb;color:var(--yellow)"><i class="bi bi-shield-check"></i></div>
                 <div class="quick-title">Verifikasi</div>
                 <div class="quick-desc">Verifikasi dokumen masuk</div>
             </a>
         </div>
         <div class="col-xl-3 col-6">
-            <a href="{{ route('permohonan.index') }}" class="quick-card">
+            <div class="quick-card" style="cursor:default;opacity:.7">
                 <div class="quick-icon icon-green"><i class="bi bi-file-earmark-arrow-up-fill"></i></div>
                 <div class="quick-title">Laporan</div>
-                <div class="quick-desc">Lihat permohonan surat</div>
-            </a>
+                <div class="quick-desc">Segera hadir</div>
+            </div>
         </div>
         <div class="col-xl-3 col-6">
-            <a href="#" class="quick-card">
+            <a href="{{ route('informasi-admin.index') }}" class="quick-card">
                 <div class="quick-icon" style="background:#fff7ed;color:var(--orange)"><i class="bi bi-newspaper"></i></div>
                 <div class="quick-title">Berita</div>
                 <div class="quick-desc">Kelola konten berita</div>
@@ -541,48 +412,43 @@ body {
                     <div class="dash-card-title">
                         <i class="bi bi-newspaper"></i> Manajemen Berita
                     </div>
-                    <a href="#" class="btn-card-add">
+                    <a href="{{ route('informasi-admin.create') }}" class="btn-card-add">
                         <i class="bi bi-plus-lg"></i> Tulis Baru
                     </a>
                 </div>
                 <div class="dash-card-body">
-
+                    @forelse($beritaTerbaru as $berita)
                     <div class="berita-item">
                         <div class="berita-thumb">
-                            <i class="bi bi-image"></i>
+                            @if($berita->gambar)
+                                <img src="{{ asset('storage/'.$berita->gambar) }}" alt="">
+                            @else
+                                <i class="bi bi-image"></i>
+                            @endif
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
-                            <div class="berita-title">Pelebaran Jalan Raya Serang Lampung Total 56/1 Tahap 2</div>
+                            <div class="berita-title">{{ $berita->judul }}</div>
                             <div class="berita-meta d-flex align-items-center gap-2">
-                                <span class="bdg bdg-published">Terbit</span>
-                                12 Jul 2025 · Admin
+                                @if($berita->status == 'publish')
+                                    <span class="bdg bdg-published">Terbit</span>
+                                @else
+                                    <span class="bdg bdg-draft">Draft</span>
+                                @endif
+                                {{ $berita->tanggal_publish ? \Carbon\Carbon::parse($berita->tanggal_publish)->format('d M Y') : 'Belum terbit' }}
                             </div>
                         </div>
                         <div class="d-flex gap-1 flex-shrink-0">
-                            <a href="#" class="action-icon-btn edit"><i class="bi bi-pencil"></i></a>
-                            <a href="#" class="action-icon-btn del"><i class="bi bi-trash"></i></a>
+                            <a href="{{ route('informasi-admin.edit', $berita->id_informasi) }}" class="action-icon-btn edit"><i class="bi bi-pencil"></i></a>
                         </div>
                     </div>
-
-                    <div class="berita-item">
-                        <div class="berita-thumb">
-                            <i class="bi bi-image"></i>
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <div class="berita-title">Pemilihan Kepala Daftar Keluarga Minggu Ini</div>
-                            <div class="berita-meta d-flex align-items-center gap-2">
-                                <span class="bdg bdg-draft">Draft</span>
-                                10 Jul 2025 · Petugas
-                            </div>
-                        </div>
-                        <div class="d-flex gap-1 flex-shrink-0">
-                            <a href="#" class="action-icon-btn edit"><i class="bi bi-pencil"></i></a>
-                            <a href="#" class="action-icon-btn del"><i class="bi bi-trash"></i></a>
-                        </div>
+                    @empty
+                    <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">
+                        <i class="bi bi-newspaper" style="font-size:28px;display:block;margin-bottom:8px;color:var(--border)"></i>
+                        Belum ada berita. <a href="{{ route('informasi-admin.create') }}" style="color:var(--blue)">Tulis sekarang</a>
                     </div>
-
+                    @endforelse
                 </div>
-                <a href="#" class="card-more-link">Kelola Semua Berita →</a>
+                <a href="{{ route('informasi-admin.index') }}" class="card-more-link">Kelola Semua Berita →</a>
             </div>
 
             {{-- Aktivitas Terbaru --}}
@@ -607,51 +473,47 @@ body {
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($permohonanTerbaru as $p)
+                            @php
+                                $initials = collect(explode(' ', $p->user->nama ?? 'U'))->map(fn($w) => strtoupper(substr($w,0,1)))->take(2)->join('');
+                                $colors   = ['blue','green','purple','orange'];
+                                $color    = $colors[$loop->index % count($colors)];
+                                $status   = $p->approval->status ?? 'pending';
+                            @endphp
                             <tr>
                                 <td>
                                     <div class="user-cell">
-                                        <div class="user-av blue">AO</div>
+                                        <div class="user-av {{ $color }}">{{ $initials }}</div>
                                         <div>
-                                            <div class="user-nm">Ahmad Octavianie</div>
-                                            <div class="user-nik">NIK: 3600XXXXXXXX</div>
+                                            <div class="user-nm">{{ $p->user->nama ?? '-' }}</div>
+                                            <div class="user-nik">NIK: {{ $p->user->nik ?? '-' }}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>Surat Keterangan Domisili</td>
-                                <td><span class="bdg bdg-pending">Menunggu</span></td>
-                                <td>12 Jul 2025</td>
-                                <td><a href="#" class="action-icon-btn edit"><i class="bi bi-eye"></i></a></td>
-                            </tr>
-                            <tr>
+                                <td>{{ $p->jenisSurat->nama_surat ?? '-' }}</td>
                                 <td>
-                                    <div class="user-cell">
-                                        <div class="user-av green">RI</div>
-                                        <div>
-                                            <div class="user-nm">Rini Ariyanti</div>
-                                            <div class="user-nik">NIK: 3600XXXXXXXX</div>
-                                        </div>
-                                    </div>
+                                    @if($status === 'disetujui')
+                                        <span class="bdg bdg-approved">Disetujui</span>
+                                    @elseif($status === 'ditolak')
+                                        <span class="bdg bdg-rejected">Ditolak</span>
+                                    @else
+                                        <span class="bdg bdg-pending">Menunggu</span>
+                                    @endif
                                 </td>
-                                <td>Surat Keterangan Usaha</td>
-                                <td><span class="bdg bdg-approved">Disetujui</span></td>
-                                <td>11 Jul 2025</td>
-                                <td><a href="#" class="action-icon-btn edit"><i class="bi bi-eye"></i></a></td>
-                            </tr>
-                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($p->tanggal_pengajuan)->format('d M Y') }}</td>
                                 <td>
-                                    <div class="user-cell">
-                                        <div class="user-av purple">DH</div>
-                                        <div>
-                                            <div class="user-nm">Duta Hermana</div>
-                                            <div class="user-nik">NIK: 3600XXXXXXXX</div>
-                                        </div>
-                                    </div>
+                                    <a href="{{ route('permohonan.show', $p->id_permohonan) }}" class="action-icon-btn edit">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                 </td>
-                                <td>Pembuatan KTP Baru</td>
-                                <td><span class="bdg bdg-processing">Proses</span></td>
-                                <td>10 Jul 2025</td>
-                                <td><a href="#" class="action-icon-btn edit"><i class="bi bi-eye"></i></a></td>
                             </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">
+                                    Belum ada permohonan masuk.
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -662,30 +524,21 @@ body {
         {{-- RIGHT SIDEBAR --}}
         <div class="col-xl-4 d-flex flex-column gap-3">
 
-            {{-- Pemberitahuan --}}
+            {{-- Pemberitahuan Realtime --}}
             <div class="dash-card">
                 <div class="dash-card-header">
                     <div class="dash-card-title">
                         <i class="bi bi-bell-fill"></i> Pemberitahuan
+                        <span id="dash-notif-count" style="font-size:11px;font-weight:600;background:#eff6ff;color:#1c64f2;border-radius:20px;padding:2px 8px;display:none"></span>
                     </div>
                 </div>
-                <div style="padding:6px 18px 4px">
-                    <div class="notif-item">
-                        <div class="notif-dot dot-blue"></div>
-                        <div>
-                            <div class="notif-text">Permohonan baru dari warga tgl 20/10/24 pukul 09:00 WIB.</div>
-                            <div class="notif-time"><i class="bi bi-clock me-1"></i>5 menit lalu</div>
-                        </div>
-                    </div>
-                    <div class="notif-item">
-                        <div class="notif-dot dot-orange"></div>
-                        <div>
-                            <div class="notif-text">Laporan Evaluasi belum diselesaikan petugas.</div>
-                            <div class="notif-time"><i class="bi bi-clock me-1"></i>1 jam lalu</div>
-                        </div>
+                <div id="dash-notif-list" style="padding:4px 0">
+                    <div style="padding:24px 18px;text-align:center;color:#94a3b8;font-size:13px">
+                        <i class="bi bi-arrow-clockwise" style="font-size:20px;display:block;margin-bottom:6px"></i>
+                        Memuat...
                     </div>
                 </div>
-                <a href="#" class="card-more-link">Lihat Semua</a>
+                <a href="{{ route('permohonan.index') }}" class="card-more-link">Lihat semua permohonan →</a>
             </div>
 
             {{-- Jam Operasional --}}
@@ -696,22 +549,19 @@ body {
                     </div>
                 </div>
                 <div style="padding:6px 18px 14px">
-                    <div class="jam-row">
+                    <div class="jam-row" id="row-senin-kamis">
                         <span class="jam-day">Senin – Kamis</span>
                         <span class="jam-time">08.00 – 15.00</span>
                     </div>
-                    <div class="jam-row">
+                    <div class="jam-row" id="row-jumat">
                         <span class="jam-day">Jumat</span>
                         <span class="jam-time">08.00 – 11.30</span>
                     </div>
-                    <div class="jam-row">
+                    <div class="jam-row" id="row-sabtu-minggu">
                         <span class="jam-day">Sabtu – Minggu</span>
                         <span class="bdg-closed">Tutup</span>
                     </div>
-                    <div class="status-open">
-                        <i class="bi bi-circle-fill" style="font-size:8px;color:#16a34a"></i>
-                        Kantor sedang <strong class="ms-1">Buka</strong> sekarang
-                    </div>
+                    <div id="status-kantor" style="margin-top:12px; border-radius:8px; padding:9px 12px; font-size:12px; display:flex; align-items:center; gap:6px;"></div>
                 </div>
             </div>
 
@@ -725,3 +575,107 @@ body {
 @include('admin.partials.footer')
 
 @endsection
+
+@push('scripts')
+<script>
+function updateStatusKantor() {
+    // Gunakan timezone Asia/Jakarta
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+    const day  = now.getDay();   // 0=Minggu, 1=Sen, ..., 5=Jum, 6=Sab
+    const hour = now.getHours();
+    const min  = now.getMinutes();
+    const time = hour + min / 60; // desimal jam
+
+    let buka = false;
+    let hariIni = '';
+
+    // Highlight baris hari ini
+    document.querySelectorAll('.jam-row').forEach(r => r.style.background = '');
+    if (day >= 1 && day <= 4) {
+        document.getElementById('row-senin-kamis').style.background = '#f0f9ff';
+        hariIni = 'Senin–Kamis';
+        buka = time >= 8 && time < 15;
+    } else if (day === 5) {
+        document.getElementById('row-jumat').style.background = '#f0f9ff';
+        hariIni = 'Jumat';
+        buka = time >= 8 && time < 11.5;
+    } else {
+        document.getElementById('row-sabtu-minggu').style.background = '#fef2f2';
+        hariIni = 'Sabtu/Minggu';
+        buka = false;
+    }
+
+    const el = document.getElementById('status-kantor');
+    if (buka) {
+        el.style.background = '#f0fdf4';
+        el.style.border     = '1px solid #bbf7d0';
+        el.style.color      = '#166534';
+        el.innerHTML = `<i class="bi bi-circle-fill" style="font-size:8px;color:#16a34a"></i>
+                        Kantor sedang <strong style="margin-left:3px">Buka</strong> sekarang`;
+    } else {
+        el.style.background = '#fef2f2';
+        el.style.border     = '1px solid #fecaca';
+        el.style.color      = '#991b1b';
+        const tutupMsg = (day === 6 || day === 0) ? 'Libur akhir pekan' : 'Di luar jam operasional';
+        el.innerHTML = `<i class="bi bi-circle-fill" style="font-size:8px;color:#ef4444"></i>
+                        Kantor sedang <strong style="margin-left:3px">Tutup</strong> — ${tutupMsg}`;
+    }
+}
+
+updateStatusKantor();
+setInterval(updateStatusKantor, 60000); // update tiap menit
+
+// ── Dashboard Pemberitahuan Panel ──────────────────────
+(function() {
+    const API = '{{ route("admin.notifikasi") }}';
+    const panel = document.getElementById('dash-notif-list');
+    const pill  = document.getElementById('dash-notif-count');
+
+    function escHtml(s) {
+        return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+
+    function loadNotif() {
+        fetch(API, { headers:{'Accept':'application/json'} })
+            .then(r=>r.json())
+            .then(data => {
+                const items = data.items || [];
+                const count = data.count || 0;
+
+                if (count > 0) {
+                    pill.textContent = count + ' baru';
+                    pill.style.display = '';
+                } else {
+                    pill.style.display = 'none';
+                }
+
+                if (!items.length) {
+                    panel.innerHTML = `<div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:13px">
+                        <i class="bi bi-bell-slash" style="font-size:22px;display:block;margin-bottom:6px;color:#e2e8f0"></i>
+                        Tidak ada notifikasi baru
+                    </div>`;
+                    return;
+                }
+
+                panel.innerHTML = items.slice(0,5).map(n => `
+                    <a href="${escHtml(n.url)}" style="display:flex;gap:10px;align-items:flex-start;padding:11px 18px;border-bottom:1px dashed #e2e8f0;text-decoration:none;color:inherit;transition:background .15s"
+                       onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+                        <div style="width:8px;height:8px;border-radius:50%;background:#1c64f2;margin-top:5px;flex-shrink:0"></div>
+                        <div style="flex:1">
+                            <div style="font-size:12px;color:#334155;line-height:1.5">${escHtml(n.message)}</div>
+                            <div style="font-size:11px;color:#94a3b8;margin-top:2px">
+                                <i class="bi bi-clock" style="font-size:10px"></i> ${escHtml(n.time)}
+                            </div>
+                        </div>
+                    </a>`).join('');
+            })
+            .catch(()=>{
+                panel.innerHTML = '<div style="padding:16px 18px;font-size:12px;color:#94a3b8">Gagal memuat notifikasi.</div>';
+            });
+    }
+
+    loadNotif();
+    setInterval(loadNotif, 30000);
+})();
+</script>
+@endpush

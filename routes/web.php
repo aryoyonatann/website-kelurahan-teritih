@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\NotifikasiController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JenisSuratController;
 use App\Http\Controllers\Admin\PermohonanController;
 use App\Http\Controllers\Admin\InformasiKelurahanController;
+use App\Http\Controllers\Admin\KependudukanController;
 use App\Http\Controllers\User\PermohonanUserController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +30,13 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminLoginController::class, 'login']);
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
+
+        // Notifikasi (polling API)
+        Route::get('notifikasi',            [NotifikasiController::class, 'index'])   ->name('admin.notifikasi');
+        Route::post('notifikasi/mark-read', [NotifikasiController::class, 'markRead'])->name('admin.notifikasi.read');
+
+        // ✅ Dashboard sekarang pakai controller agar bisa kirim data ke view
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
         Route::resource('jenis-surat', JenisSuratController::class);
@@ -36,10 +45,17 @@ Route::prefix('admin')->group(function () {
         Route::get('permohonan/{id}',         [PermohonanController::class, 'show'])   ->name('permohonan.show');
         Route::put('permohonan/{id}/approve', [PermohonanController::class, 'approve'])->name('permohonan.approve');
         Route::put('permohonan/{id}/reject',  [PermohonanController::class, 'reject']) ->name('permohonan.reject');
-        Route::get('/permohonan/{id}/print', [PermohonanController::class, 'print'])->name('permohonan.print');
-        Route::post('/upload-ttd', [PermohonanController::class, 'uploadTtd'])->name('admin.upload-ttd');
+        Route::get('/permohonan/{id}/print',  [PermohonanController::class, 'print'])  ->name('permohonan.print');
+        Route::post('/upload-ttd',            [PermohonanController::class, 'uploadTtd'])->name('admin.upload-ttd');
 
         Route::resource('informasi-admin', InformasiKelurahanController::class);
+
+        // Kependudukan
+        Route::get('kependudukan',                 [KependudukanController::class, 'index'])       ->name('kependudukan.index');
+        Route::post('kependudukan',                [KependudukanController::class, 'store'])       ->name('kependudukan.store');
+        Route::get('kependudukan/{id}',            [KependudukanController::class, 'show'])        ->name('kependudukan.show');
+        Route::patch('kependudukan/{id}/toggle',   [KependudukanController::class, 'toggleStatus'])->name('kependudukan.toggle');
+        Route::delete('kependudukan/{id}',         [KependudukanController::class, 'destroy'])     ->name('kependudukan.destroy');
     });
 });
 
@@ -48,9 +64,10 @@ Route::prefix('admin')->group(function () {
 // =========================================================
 Route::middleware('auth')->group(function () {
 
-Route::prefix('user')->name('user.')->group(function () {
+    Route::prefix('user')->name('user.')->group(function () {
         Route::resource('permohonan', PermohonanUserController::class);
     });
+
     Route::get('/profile',  [ProfileController::class, 'edit'])  ->name('profile.edit');
     Route::put('/profile',  [ProfileController::class, 'update'])->name('profile.update');
 });

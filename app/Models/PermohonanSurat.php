@@ -11,10 +11,9 @@ protected $primaryKey = 'id_permohonan';
 public $timestamps = false;
 
 protected $fillable = [
-    'id_user',
-    'id_jenis_surat',
-    'tanggal_pengajuan',
-    'keperluan',
+    'id_user', 'id_jenis_surat',
+    'nama_pemohon', 'nik_pemohon', 'alamat_pemohon',
+    'keperluan', 'tanggal_pengajuan',
 ];
 
 // relasi ke user

@@ -1,3 +1,40 @@
+@once
+@push('styles')
+<style>
+/* =========================================================
+   FOOTER
+========================================================= */
+.app-footer { background: #0f172a; margin-top: 40px; color: #94a3b8; }
+.footer-logo {
+    width: 32px; height: 32px; background: #1c64f2;
+    border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px;
+}
+.footer-brand-name { font-size: 16px; font-weight: 700; color: white; }
+.footer-desc       { font-size: 12.5px; color: #94a3b8; line-height: 1.7; }
+.footer-social {
+    width: 32px; height: 32px; background: #1e293b;
+    border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    color: #94a3b8; text-decoration: none; font-size: 15px; transition: all .18s;
+}
+.footer-social:hover { background: #1c64f2; color: white; }
+.footer-heading {
+    font-size: 11px; font-weight: 700; color: #cbd5e1;
+    text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px;
+}
+.footer-links        { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.footer-links a      { color: #94a3b8; text-decoration: none; font-size: 12.5px; display: flex; align-items: center; gap: 5px; transition: color .18s; }
+.footer-links a i    { font-size: 9px; }
+.footer-links a:hover{ color: #60a5fa; }
+.footer-contact      { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.footer-contact li   { display: flex; gap: 10px; font-size: 12.5px; align-items: flex-start; }
+.footer-contact li i { color: #60a5fa; margin-top: 2px; flex-shrink: 0; }
+.footer-map          { border-radius: 8px; overflow: hidden; border: 1px solid #1e293b; }
+.footer-bottom       { border-top: 1px solid #1e293b; padding: 16px 0; font-size: 12px; color: #475569; }
+</style>
+@endpush
+@endonce
+
 <footer class="app-footer">
     <div class="container-fluid px-4">
         <div class="row g-4 pt-4 pb-3">

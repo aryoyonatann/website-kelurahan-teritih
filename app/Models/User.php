@@ -10,14 +10,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // ── Primary key sesuai database ─────────────────────────────────
     protected $primaryKey = 'id_user';
-
-    // ── Nama tabel (opsional, tapi eksplisit lebih aman) ────────────
     protected $table = 'users';
 
-    // ── Kolom yang boleh diisi massal ───────────────────────────────
-    // Disesuaikan PERSIS dengan kolom yang ada di tabel users
     protected $fillable = [
         'nama',
         'nik',
@@ -28,21 +23,19 @@ class User extends Authenticatable
         'tanggal_lahir',
         'username',
         'password',
-        // Kolom baru (setelah migration)
         'rt',
         'rw',
         'kelurahan',
         'kecamatan',
         'foto',
+        'status',
     ];
 
-    // ── Kolom yang disembunyikan ────────────────────────────────────
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    // ── Cast ────────────────────────────────────────────────────────
     protected function casts(): array
     {
         return [

@@ -44,24 +44,37 @@ class PermohonanUserController extends Controller
     {
         $request->validate([
             'id_jenis_surat'  => 'required|exists:jenis_surat,id_jenis_surat',
+            'nama_pemohon'    => 'required|string|max:255',
+            'nik_pemohon'     => 'required|string|max:20',
+            'alamat_pemohon'  => 'required|string|max:500',
             'keperluan'       => 'required|string|max:500',
             'dokumen'         => 'nullable|array|max:5',
             'dokumen.*'       => 'file|mimes:pdf,jpg,jpeg,png|max:10240',
         ], [
             'id_jenis_surat.required' => 'Jenis surat wajib dipilih.',
             'id_jenis_surat.exists'   => 'Jenis surat tidak valid.',
+            'nama_pemohon.required'   => 'Nama pemohon wajib diisi.',
+            'nik_pemohon.required'    => 'NIK pemohon wajib diisi.',
+            'alamat_pemohon.required' => 'Alamat pemohon wajib diisi.',
             'keperluan.required'      => 'Tujuan/keperluan surat wajib diisi.',
             'dokumen.max'             => 'Maksimal 5 file yang dapat diunggah.',
             'dokumen.*.mimes'         => 'Format file harus PDF, JPG, atau PNG.',
             'dokumen.*.max'           => 'Ukuran setiap file maksimal 2MB.',
         ]);
 
-        // ✅ Simpan datetime lengkap (tanggal + jam) bukan hanya tanggal
+        $user = Auth::user();
+
+        // Cek apakah mengajukan untuk diri sendiri atau orang lain
+        $isWakil = ($request->nik_pemohon !== $user->nik);
+
         $permohonan = PermohonanSurat::create([
             'id_user'           => Auth::id(),
             'id_jenis_surat'    => $request->id_jenis_surat,
+            'nama_pemohon'      => $request->nama_pemohon,
+            'nik_pemohon'       => $request->nik_pemohon,
+            'alamat_pemohon'    => $request->alamat_pemohon,
             'keperluan'         => $request->keperluan,
-            'tanggal_pengajuan' => now(), // ✅ Sudah otomatis WIB karena timezone di config/app.php
+            'tanggal_pengajuan' => now(),
         ]);
 
         // Simpan semua file ke tabel persyaratan

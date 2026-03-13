@@ -2,9 +2,9 @@
 
 @section('title', 'Detail Permohonan')
 
-@section('content')
-
+@push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
 <style>
     :root {
@@ -256,6 +256,12 @@
         .field-grid   { grid-template-columns: 1fr; }
     }
 </style>
+@endpush
+
+@section('content')
+
+{{-- NAVBAR --}}
+@include('admin.partials.header')
 
 <div class="detail-page">
 
@@ -459,7 +465,7 @@
 
                             <div style="border-top:1.5px solid var(--gray-800); padding-top:8px; margin-top:4px;">
                                 <p style="margin:0; font-size:13px; font-weight:700; color:var(--gray-900);">Hidayatullah, S.E.</p>
-                                <p style="margin:4px 0 0; font-size:11px; color:var(--gray-400);">NIP. 19760402 201001 1 013</p>
+                                <p style="margin:4px 0 0; font-size:11px; color:var(--gray-400);">NIP. ____________________</p>
                             </div>
                         </div>
                     </div>
@@ -709,5 +715,8 @@ function onTtdSelected(input) {
     document.getElementById('ttd-label-text').textContent = 'Ganti File TTD';
 }
 </script>
+
+{{-- FOOTER --}}
+@include('admin.partials.footer')
 
 @endsection

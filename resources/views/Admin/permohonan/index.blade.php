@@ -2,8 +2,9 @@
 
 @section('title', 'Data Permohonan')
 
-@section('content')
+@push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
 <style>
     :root {
@@ -193,15 +194,15 @@
     }
 
     /* ── ACTION BUTTONS ── */
-    .action-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .action-group { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; }
     .btn-act {
         display: inline-flex; align-items: center; gap: 5px;
-        padding: 6px 12px; border-radius: var(--radius-sm);
+        padding: 6px 11px; border-radius: var(--radius-sm);
         font-size: 12px; font-weight: 700; cursor: pointer;
         border: none; transition: all .15s; text-decoration: none; white-space: nowrap;
         font-family: inherit;
     }
-    .btn-act svg { width: 13px; height: 13px; }
+    .btn-act svg { width: 13px; height: 13px; flex-shrink: 0; }
     .btn-detail  { background: var(--primary-light); color: var(--primary); }
     .btn-detail:hover  { background: #bfdbfe; }
     .btn-approve { background: var(--success-light); color: #047857; }
@@ -210,6 +211,16 @@
     .btn-reject:hover  { background: #fecaca; }
     .btn-print   { background: #f3e8ff; color: #7c3aed; }
     .btn-print:hover   { background: #ede9fe; }
+    .btn-dok     { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; width:32px; height:32px; padding:0; justify-content:center; border-radius: var(--radius-sm); position: relative; }
+    .btn-dok:hover { background: #e0f2fe; }
+    .btn-dok::after {
+        content: 'Dokumen Persyaratan';
+        position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+        background: #0f172a; color: white; font-size: 10px; font-weight: 600;
+        padding: 3px 8px; border-radius: 5px; white-space: nowrap;
+        opacity: 0; pointer-events: none; transition: opacity .15s;
+    }
+    .btn-dok:hover::after { opacity: 1; }
 
     /* ── ALERT ── */
     .alert-success {
@@ -243,7 +254,14 @@
         .page-hero h1 { font-size: 20px; }
         .search-wrap input { width: 200px; }
     }
+    .btn-dok { background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd; }
+    .btn-dok:hover { background:#e0f2fe; }
 </style>
+@endpush
+
+@section('content')
+
+@include('admin.partials.header')
 
 <div class="perm-page">
 
@@ -357,6 +375,7 @@
                 @php
                     $approvalStatus = optional($d->approval)->status;
                     $rowStatus = $approvalStatus ?? 'pending';
+                    $persyaratan = $d->persyaratan ?? collect();
                 @endphp
                 <tr data-status="{{ $rowStatus }}"
                     data-name="{{ strtolower($d->user->nama ?? '') }}"
@@ -393,6 +412,31 @@
                                 </svg>
                                 Detail
                             </a>
+
+                            {{-- Tombol Dokumen --}}
+                            @php
+                                $jumlahDok = $persyaratan->count();
+                                $dokData = json_encode([
+                                    'nama'  => $d->user->nama ?? '-',
+                                    'jenis' => $d->jenisSurat->nama_surat ?? '-',
+                                    'files' => $persyaratan->map(function($p) {
+                                        return [
+                                            'nama' => $p->nama_file,
+                                            'url'  => asset('storage/'.$p->path_file),
+                                            'ext'  => strtolower(pathinfo($p->nama_file, PATHINFO_EXTENSION)),
+                                            'tgl'  => $p->uploaded_at ? \Carbon\Carbon::parse($p->uploaded_at)->format('d M Y, H:i') : '-',
+                                        ];
+                                    })->values()
+                                ], JSON_HEX_QUOT | JSON_HEX_APOS);
+                            @endphp
+                            <button type="button"
+                                class="btn-act btn-dok"
+                                onclick="openDokModal({{ $dokData }})"
+                                title="Dokumen Persyaratan ({{ $jumlahDok }})">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+                                    <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/>
+                                </svg>
+                            </button>
 
                             @if($rowStatus === 'disetujui')
                                 <a href="{{ route('permohonan.show', $d->id_permohonan) }}?print=1"
@@ -471,5 +515,86 @@ function filterTable() {
 }
 filterTable();
 </script>
+
+{{-- Modal Dokumen Persyaratan --}}
+<div id="modalDokumen" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1500;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:16px;width:100%;max-width:520px;margin:16px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;">
+        <div style="padding:18px 20px 14px;border-bottom:1px solid #e2e8f0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+            <div>
+                <div style="font-size:15px;font-weight:800;color:#0f172a" id="modal-dok-title">Dokumen Persyaratan</div>
+                <div style="font-size:12px;color:#64748b;margin-top:2px" id="modal-dok-sub"></div>
+            </div>
+            <button onclick="closeDokModal()" style="width:30px;height:30px;border-radius:7px;border:1px solid #e2e8f0;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;color:#64748b">&times;</button>
+        </div>
+        <div id="modal-dok-list" style="max-height:400px;overflow-y:auto"></div>
+    </div>
+</div>
+
+<script>
+function openDokModal(data) {
+    document.getElementById('modal-dok-title').textContent = 'Dokumen Persyaratan';
+    document.getElementById('modal-dok-sub').textContent   = data.nama + ' — ' + data.jenis;
+
+    const list = document.getElementById('modal-dok-list');
+
+    if (!data.files || data.files.length === 0) {
+        list.innerHTML = `<div style="padding:32px;text-align:center;color:#94a3b8;font-size:13px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;margin:0 auto 8px;display:block;color:#e2e8f0">
+                <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/>
+            </svg>
+            Tidak ada dokumen yang dilampirkan
+        </div>`;
+    } else {
+        list.innerHTML = data.files.map((f, i) => {
+            const isPdf = f.ext === 'pdf';
+            const isImg = ['jpg','jpeg','png','gif','webp'].includes(f.ext);
+            const iconColor = isPdf ? '#dc2626' : '#2563eb';
+            const iconBg    = isPdf ? '#fee2e2' : '#dbeafe';
+            const icon = isPdf
+                ? `<svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;color:${iconColor}"><path d="M7 18H17V16H7v2zm0-4h10v-2H7v2zm-2 8a2 2 0 01-2-2V4a2 2 0 012-2h8l6 6v14a2 2 0 01-2 2H5z"/></svg>`
+                : isImg
+                ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:${iconColor}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`
+                : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:${iconColor}"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`;
+
+            return `<div style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #f1f5f9">
+                <div style="width:38px;height:38px;border-radius:9px;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    ${icon}
+                </div>
+                <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:600;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(f.nama)}</div>
+                    <div style="font-size:11px;color:#94a3b8;margin-top:2px">${f.ext.toUpperCase()} · ${escHtml(f.tgl)}</div>
+                </div>
+                <a href="${escHtml(f.url)}" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    Lihat
+                </a>
+            </div>`;
+        }).join('');
+    }
+
+    const modal = document.getElementById('modalDokumen');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDokModal() {
+    document.getElementById('modalDokumen').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function escHtml(s) {
+    return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+document.getElementById('modalDokumen').addEventListener('click', function(e) {
+    if (e.target === this) closeDokModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDokModal(); });
+</script>
+
+@include('admin.partials.footer')
 
 @endsection

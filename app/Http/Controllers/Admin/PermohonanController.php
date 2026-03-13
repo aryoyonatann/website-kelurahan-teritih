@@ -11,13 +11,13 @@ class PermohonanController extends Controller
 {
     public function index()
     {
-        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval'])->latest('tanggal_pengajuan')->get();
+        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval', 'persyaratan'])->latest('tanggal_pengajuan')->get();
         return view('admin.permohonan.index', compact('data'));
     }
 
     public function show($id)
     {
-        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval'])->findOrFail($id);
+        $data = PermohonanSurat::with(['user', 'jenisSurat', 'approval', 'persyaratan'])->findOrFail($id);
         return view('admin.permohonan.show', compact('data'));
     }
 
